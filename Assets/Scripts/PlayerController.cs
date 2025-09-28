@@ -1,20 +1,30 @@
 using UnityEngine;
 
-public enum PlayerAction { None, Reload, Shoot, Block }
-
 public class PlayerController : MonoBehaviour
 {
-    [Header("Controls")]
+    public enum PlayerAction { None, Reload, Shoot, Block }
+
+    [Header("Keys")]
     public KeyCode chargeKey;
     public KeyCode reloadKey;
     public KeyCode shootKey;
     public KeyCode blockKey;
 
+    [Header("Stats")]
+    public int maxLives = 5;
+    public int lives;
+    public int maxAmmo = 6;
+    public int ammo;
+
     [Header("State")]
-    public int ammo = 0;
-    public int maxAmmo = 3;
     public int chargeCount = 0;
     public PlayerAction chosenAction = PlayerAction.None;
+
+    void Start()
+    {
+        lives = maxLives;
+        ammo = 0;
+    }
 
     void Update()
     {
@@ -23,33 +33,28 @@ public class PlayerController : MonoBehaviour
 
     void HandleInput()
     {
-        // ensure BeatManager exists
         if (BeatManager.Instance == null) return;
 
-        // When player presses charge
+        // --- CHARGE ---
         if (Input.GetKeyDown(chargeKey))
         {
             float dist;
-            var result = BeatManager.Instance.CheckHit(out dist); // uses configured windows from BeatManager
+            var result = BeatManager.Instance.CheckHit(out dist);
 
             if (result != BeatManager.HitResult.Miss)
             {
                 chargeCount++;
-                if (BeatManager.Instance.debugTiming)
-                    Debug.Log($"{name} charge hit {chargeCount}/2 - {result} (dist {dist:F3}s)");
+                Debug.Log($"{name} charge hit {chargeCount}/2 - {result}");
             }
             else
             {
-                chargeCount = 0; // miss resets charge
-                if (BeatManager.Instance.debugTiming)
-                {
-                    Debug.Log($"{name} charge MISS (dist {dist:F3}s). Reset charge.");
-                    Debug.Log($"beatInterval: {BeatManager.Instance.beatInterval:F3}s, time: {Time.time:F3}");
-                }
+                chargeCount = 0;
+                LoseLife(); // ⬅️ new: miss charge = lose 1 life
+                Debug.Log($"{name} charge MISS! Lost 1 life (now {lives})");
             }
         }
 
-        // Can only perform an action if fully charged
+        // --- ACTIONS (only after 2 charges) ---
         if (chargeCount >= 2 && chosenAction == PlayerAction.None)
         {
             if (Input.GetKeyDown(reloadKey))
@@ -58,9 +63,8 @@ public class PlayerController : MonoBehaviour
                 if (res != BeatManager.HitResult.Miss)
                 {
                     chosenAction = PlayerAction.Reload;
-                    if (BeatManager.Instance.debugTiming) Debug.Log($"{name} chose Reload ({res}, d={dist:F3}s)");
+                    Debug.Log($"{name} chose Reload");
                 }
-                else if (BeatManager.Instance.debugTiming) Debug.Log($"{name} Reload MISS (d={dist:F3}s)");
             }
             else if (Input.GetKeyDown(shootKey) && ammo > 0)
             {
@@ -68,9 +72,8 @@ public class PlayerController : MonoBehaviour
                 if (res != BeatManager.HitResult.Miss)
                 {
                     chosenAction = PlayerAction.Shoot;
-                    if (BeatManager.Instance.debugTiming) Debug.Log($"{name} chose Shoot ({res}, d={dist:F3}s)");
+                    Debug.Log($"{name} chose Shoot");
                 }
-                else if (BeatManager.Instance.debugTiming) Debug.Log($"{name} Shoot MISS (d={dist:F3}s)");
             }
             else if (Input.GetKeyDown(blockKey))
             {
@@ -78,44 +81,59 @@ public class PlayerController : MonoBehaviour
                 if (res != BeatManager.HitResult.Miss)
                 {
                     chosenAction = PlayerAction.Block;
-                    if (BeatManager.Instance.debugTiming) Debug.Log($"{name} chose Block ({res}, d={dist:F3}s)");
+                    Debug.Log($"{name} chose Block");
                 }
-                else if (BeatManager.Instance.debugTiming) Debug.Log($"{name} Block MISS (d={dist:F3}s)");
             }
         }
     }
 
-
-
+    // --- Resolve chosen action at end of beat ---
     public void ResolveAction(PlayerController opponent)
     {
-        if (chosenAction == PlayerAction.Reload)
+        switch (chosenAction)
         {
-            ammo = Mathf.Min(ammo + 1, maxAmmo);
-        }
-        else if (chosenAction == PlayerAction.Shoot)
-        {
-            ammo--;
-            if (opponent.chosenAction != PlayerAction.Block)
-            {
-                Debug.Log($"{gameObject.name} hit {opponent.gameObject.name}!");
-                opponent.Die();
-            }
-        }
-        else if (chosenAction == PlayerAction.Block)
-        {
-            Debug.Log($"{gameObject.name} blocked!");
-        }
-    }
+            case PlayerAction.Reload:
+                ammo = Mathf.Min(ammo + 1, maxAmmo);
+                Debug.Log($"{name} reloaded. Ammo: {ammo}");
+                break;
 
-    public void ResetTurn()
-    {
-        chargeCount = 0;
+            case PlayerAction.Shoot:
+                if (ammo > 0)
+                {
+                    ammo--;
+                    Debug.Log($"{name} shot! Ammo left: {ammo}");
+
+                    // Resolve hit logic based on opponent's action
+                    if (opponent.chosenAction == PlayerAction.Reload)
+                    {
+                        opponent.LoseLife(); // opponent loses 1 life
+                        Debug.Log($"{opponent.name} was shot while reloading! Lost 1 life.");
+                    }
+                    else if (opponent.chosenAction == PlayerAction.Block)
+                    {
+                        Debug.Log($"{opponent.name} blocked the shot! No damage.");
+                    }
+                }
+                break;
+
+            case PlayerAction.Block:
+                Debug.Log($"{name} blocked this turn.");
+                break;
+        }
+
+        // Reset for next round
         chosenAction = PlayerAction.None;
+        chargeCount = 0;
     }
 
-    public void Die()
+    public void LoseLife()
     {
-        Debug.Log($"{gameObject.name} is out!");
+        lives--;
+        if (lives <= 0)
+        {
+            lives = 0;
+            Debug.Log($"{name} is out of lives! GAME OVER for this player.");
+            // TODO: hook into game manager for win/lose
+        }
     }
 }

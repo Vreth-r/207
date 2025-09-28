@@ -7,23 +7,22 @@ public class BeatMarker : MonoBehaviour
     private float travelTime;
     private float spawnTime;
 
-    public void Initialize(Vector3 targetPos, float timeToTravel)
+    public void Initialize(Vector3 targetPos, float travelTimeSeconds)
     {
-        start = transform.position;
+        start = transform.position; // store where we spawned
         target = targetPos;
-        travelTime = timeToTravel;
+        travelTime = travelTimeSeconds;
         spawnTime = Time.time;
     }
 
     void Update()
     {
-        float elapsed = Time.time - spawnTime;
-        float t = elapsed / travelTime;
+        float t = (Time.time - spawnTime) / travelTime;
 
-        // Move at constant speed
+        // move linearly from start → target
         transform.position = Vector3.Lerp(start, target, t);
 
-        // Destroy once it reaches (or passes) the hit zone
+        // destroy once it reaches or passes the end
         if (t >= 1f)
         {
             Destroy(gameObject);

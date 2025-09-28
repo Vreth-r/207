@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,34 +6,67 @@ public class GameManager : MonoBehaviour
     public PlayerController player1;
     public PlayerController player2;
 
-    [Header("UI")]
-    public TextMeshProUGUI resultText;
+    [Header("Beat Cycle Settings")]
+    public int beatsPerRound = 3; // how many beats make one "turn"
 
+    private int currentBeat = 0;
+
+    /*
     void Start()
     {
-        BeatManager.Instance.OnBeat += OnBeat;
+        if (BeatManager.Instance != null)
+        {
+            BeatManager.Instance.OnBeat += OnBeat;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (BeatManager.Instance != null)
+        {
+            BeatManager.Instance.OnBeat -= OnBeat;
+        }
     }
 
     void OnBeat(int beatIndex)
     {
-        // At the end of cycle, resolve actions
-        if (beatIndex == 0) // every new cycle
+        currentBeat = beatIndex;
+
+        // End of cycle: resolve both players simultaneously
+        if (currentBeat == beatsPerRound - 1)
         {
-            ResolveRound();
-            player1.ResetTurn();
-            player2.ResetTurn();
+            ResolveActions();
+            CheckGameOver();
         }
-    }
+    }*/
 
-    void ResolveRound()
+    void ResolveActions()
     {
-        PlayerAction p1Action = player1.chosenAction;
-        PlayerAction p2Action = player2.chosenAction;
+        if (player1 == null || player2 == null) return;
 
+        // Both players resolve their chosen action for this cycle
         player1.ResolveAction(player2);
         player2.ResolveAction(player1);
 
-        string log = $"P1: {p1Action}, P2: {p2Action}";
-        resultText.text = log;
+        Debug.Log($"--- End of Round --- P1 Lives: {player1.lives} | P1 Ammo: {player1.ammo} || P2 Lives: {player2.lives} | P2 Ammo: {player2.ammo}");
+    }
+
+    void CheckGameOver()
+    {
+        if (player1.lives <= 0 && player2.lives <= 0)
+        {
+            Debug.Log("Draw! Both players are out of lives.");
+            // TODO: Hook in UI/game restart
+        }
+        else if (player1.lives <= 0)
+        {
+            Debug.Log("Player 2 Wins!");
+            // TODO: Hook in UI/game restart
+        }
+        else if (player2.lives <= 0)
+        {
+            Debug.Log("Player 1 Wins!");
+            // TODO: Hook in UI/game restart
+        }
     }
 }
