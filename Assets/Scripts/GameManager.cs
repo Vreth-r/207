@@ -2,71 +2,95 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Players")]
     public PlayerController player1;
     public PlayerController player2;
 
-    [Header("Beat Cycle Settings")]
-    public int beatsPerRound = 3; // how many beats make one "turn"
+    public enum PlayerAction { None, Reload, Shoot, Block }
 
-    private int currentBeat = 0;
+    private PlayerAction p1Queued = PlayerAction.None;
+    private PlayerAction p2Queued = PlayerAction.None;
+    private PlayerController p1Actor;
+    private PlayerController p2Actor;
 
-    /*
-    void Start()
+    void Update()
     {
-        if (BeatManager.Instance != null)
+        // Check win/loss
+        if (!player1.IsAlive())
         {
-            BeatManager.Instance.OnBeat += OnBeat;
+            Debug.Log("Player 2 wins!");
+            enabled = false;
+        }
+        else if (!player2.IsAlive())
+        {
+            Debug.Log("Player 1 wins!");
+            enabled = false;
         }
     }
 
-    void OnDestroy()
+    public void QueueAction(PlayerController actor, PlayerAction action)
     {
-        if (BeatManager.Instance != null)
+        if (actor == player1)
         {
-            BeatManager.Instance.OnBeat -= OnBeat;
+            p1Queued = action;
+            p1Actor = actor;
         }
-    }
+        else if (actor == player2)
+        {
+            p2Queued = action;
+            p2Actor = actor;
+        }
 
-    void OnBeat(int beatIndex)
-    {
-        currentBeat = beatIndex;
-
-        // End of cycle: resolve both players simultaneously
-        if (currentBeat == beatsPerRound - 1)
+        // If both queued, resolve immediately
+        if (p1Queued != PlayerAction.None && p2Queued != PlayerAction.None)
         {
             ResolveActions();
-            CheckGameOver();
+            p1Queued = PlayerAction.None;
+            p2Queued = PlayerAction.None;
         }
-    }*/
+    }
 
     void ResolveActions()
     {
-        if (player1 == null || player2 == null) return;
+        Debug.Log($"Resolving: P1 {p1Queued} vs P2 {p2Queued}");
 
-        // Both players resolve their chosen action for this cycle
-        player1.ResolveAction(player2);
-        player2.ResolveAction(player1);
-
-        Debug.Log($"--- End of Round --- P1 Lives: {player1.lives} | P1 Ammo: {player1.ammo} || P2 Lives: {player2.lives} | P2 Ammo: {player2.ammo}");
+        // Player 1’s action
+        ResolveSingleAction(p1Actor, p1Queued, p2Actor, p2Queued);
+        // Player 2’s action
+        ResolveSingleAction(p2Actor, p2Queued, p1Actor, p1Queued);
     }
 
-    void CheckGameOver()
+    void ResolveSingleAction(PlayerController actor, PlayerAction action, PlayerController opponent, PlayerAction opponentAction)
     {
-        if (player1.lives <= 0 && player2.lives <= 0)
+        switch (action)
         {
-            Debug.Log("Draw! Both players are out of lives.");
-            // TODO: Hook in UI/game restart
-        }
-        else if (player1.lives <= 0)
-        {
-            Debug.Log("Player 2 Wins!");
-            // TODO: Hook in UI/game restart
-        }
-        else if (player2.lives <= 0)
-        {
-            Debug.Log("Player 1 Wins!");
-            // TODO: Hook in UI/game restart
+            case PlayerAction.Reload:
+                actor.ammo++;
+                Debug.Log($"{actor.name} reloaded → ammo {actor.ammo}");
+                break;
+
+            case PlayerAction.Shoot:
+                if (actor.ammo > 0)
+                {
+                    actor.ammo--;
+                    if (opponentAction == PlayerAction.Reload)
+                    {
+                        opponent.TakeDamage(1);
+                        Debug.Log($"{actor.name} shot {opponent.name} while reloading!");
+                    }
+                    else if (opponentAction == PlayerAction.Block)
+                    {
+                        Debug.Log($"{opponent.name} blocked {actor.name}'s shot!");
+                    }
+                }
+                else
+                {
+                    Debug.Log($"{actor.name} tried to shoot but had no ammo!");
+                }
+                break;
+
+            case PlayerAction.Block:
+                Debug.Log($"{actor.name} blocked!");
+                break;
         }
     }
 }
