@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Check win/loss
         if (!player1.IsAlive())
         {
             Debug.Log("Player 2 wins!");
@@ -40,7 +39,6 @@ public class GameManager : MonoBehaviour
             p2Actor = actor;
         }
 
-        // If both queued, resolve immediately
         if (p1Queued != PlayerAction.None && p2Queued != PlayerAction.None)
         {
             ResolveActions();
@@ -53,9 +51,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"Resolving: P1 {p1Queued} vs P2 {p2Queued}");
 
-        // Player 1’s action
         ResolveSingleAction(p1Actor, p1Queued, p2Actor, p2Queued);
-        // Player 2’s action
         ResolveSingleAction(p2Actor, p2Queued, p1Actor, p1Queued);
     }
 
