@@ -1,0 +1,441 @@
+fileFormatVersion: 2
+guid: 9cb7348b0d52de24daadd5a99671c304
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5334248842100148539
+    second: Fireball Projectile_0
+  - first:
+      213: -7651925577884121777
+    second: Fireball Projectile_1
+  - first:
+      213: -2393114860100842617
+    second: Fireball Projectile_2
+  - first:
+      213: -4283760061822067586
+    second: Fireball Projectile_3
+  - first:
+      213: 7042241237318987720
+    second: Fireball Projectile_4
+  - first:
+      213: 6623009020531848624
+    second: Fireball Projectile_5
+  - first:
+      213: 823886017293530603
+    second: Fireball Projectile_6
+  - first:
+      213: 3553160251009707958
+    second: Fireball Projectile_7
+  - first:
+      213: 358548619349377831
+    second: Fireball Projectile_8
+  - first:
+      213: 5430886249382503456
+    second: Fireball Projectile_9
+  - first:
+      213: 2073853857099594392
+    second: Fireball Projectile_10
+  - first:
+      213: -1578279530969496447
+    second: Fireball Projectile_11
+  - first:
+      213: 1646821917409708259
+    second: Fireball Projectile_12
+  - first:
+      213: 6878968838698345222
+    second: Fireball Projectile_13
+  - first:
+      213: 8690614841283053965
+    second: Fireball Projectile_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fireball Projectile_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 103
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b390be05f0f070a40800000000000000
+      internalID: 5334248842100148539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 103
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78b0bf8c6b2f9ced0800000000000000
+      internalID: -2393114860100842617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_3
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 103
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7c171c8be60d84c0800000000000000
+      internalID: -4283760061822067586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 71
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cf610d08111bb160800000000000000
+      internalID: 7042241237318987720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_6
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 71
+        width: 27
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be53134b7f70f6b00800000000000000
+      internalID: 823886017293530603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_7
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 71
+        width: 29
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bfa87f3c6c5f4130800000000000000
+      internalID: 3553160251009707958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 39
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 723c603d112d9f400800000000000000
+      internalID: 358548619349377831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 39
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0246ffd05426e5b40800000000000000
+      internalID: 5430886249382503456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 39
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89abe74681fc7cc10800000000000000
+      internalID: 2073853857099594392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1840b40f023d81ae0800000000000000
+      internalID: -1578279530969496447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_13
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 7
+        width: 29
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 603a89366b1077f50800000000000000
+      internalID: 6878968838698345222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireball Projectile_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 7
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d890a6e37244b9870800000000000000
+      internalID: 8690614841283053965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e06d9fd81289daa439b447d48931bd79
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Fireball Projectile_0: 5334248842100148539
+      Fireball Projectile_1: -7651925577884121777
+      Fireball Projectile_10: 2073853857099594392
+      Fireball Projectile_11: -1578279530969496447
+      Fireball Projectile_12: 1646821917409708259
+      Fireball Projectile_13: 6878968838698345222
+      Fireball Projectile_14: 8690614841283053965
+      Fireball Projectile_2: -2393114860100842617
+      Fireball Projectile_3: -4283760061822067586
+      Fireball Projectile_4: 7042241237318987720
+      Fireball Projectile_5: 6623009020531848624
+      Fireball Projectile_6: 823886017293530603
+      Fireball Projectile_7: 3553160251009707958
+      Fireball Projectile_8: 358548619349377831
+      Fireball Projectile_9: 5430886249382503456
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -12,6 +12,14 @@ public class GameManager : MonoBehaviour
     private PlayerController p1Actor;
     private PlayerController p2Actor;
 
+    [Header("Animations")]
+    public Animator redAttack;
+    public Animator blueAttack;
+    public Animator redBullet;
+    public Animator blueBullet;
+    public Animator redShield;
+    public Animator blueShield;
+
     void Update()
     {
         if (!player1.IsAlive())
@@ -41,7 +49,7 @@ public class GameManager : MonoBehaviour
             p1Actor = player1;
         }
 
-        if (p1Queued != PlayerAction.None || p2Queued != PlayerAction.None)
+        if (p1Queued != PlayerAction.None && p2Queued != PlayerAction.None)
         {
             ResolveActions();
             p1Queued = PlayerAction.None;
@@ -63,17 +71,33 @@ public class GameManager : MonoBehaviour
         {
             case PlayerAction.Reload:
                 actor.ammo++;
-                Debug.Log($"{actor.name} reloaded → ammo {actor.ammo}");
+                if (actor == player1)
+                {
+                    blueBullet.Play("BulletLoad");
+                }
+                else
+                {
+                    redBullet.Play("BulletLoad");
+                }
+                //Debug.Log($"{actor.name} reloaded → ammo {actor.ammo}");
                 break;
 
             case PlayerAction.Shoot:
                 if (actor.ammo > 0)
                 {
                     actor.ammo--;
+                    if (actor == player1)
+                    {
+                        blueAttack.Play("Lightning");
+                    }
+                    else
+                    {
+                        redAttack.Play("Fireball");
+                    }
                     if (opponentAction == PlayerAction.Reload || opponentAction == PlayerAction.None || opponentAction == PlayerAction.Shoot)
                     {
                         opponent.TakeDamage(1);
-                        Debug.Log($"{actor.name} shot {opponent.name} while vulnerable!");
+                        //Debug.Log($"{actor.name} shot {opponent.name} while vulnerable!");
                     }
                     else if (opponentAction == PlayerAction.Block)
                     {
@@ -87,7 +111,15 @@ public class GameManager : MonoBehaviour
                 break;
 
             case PlayerAction.Block:
-                Debug.Log($"{actor.name} blocked!");
+                if (actor == player1)
+                {
+                    blueShield.Play("ShieldUp");
+                }
+                else
+                {
+                    redShield.Play("ShieldUp");
+                }
+                //Debug.Log($"{actor.name} blocked!");
                 break;
 
             case PlayerAction.None:
