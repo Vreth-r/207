@@ -32,11 +32,13 @@ public class GameManager : MonoBehaviour
         {
             p1Queued = action;
             p1Actor = actor;
+            p2Actor = player2;
         }
         else if (actor == player2)
         {
             p2Queued = action;
             p2Actor = actor;
+            p1Actor = player1;
         }
 
         if (p1Queued != PlayerAction.None || p2Queued != PlayerAction.None)
@@ -68,10 +70,10 @@ public class GameManager : MonoBehaviour
                 if (actor.ammo > 0)
                 {
                     actor.ammo--;
-                    if (opponentAction == PlayerAction.Reload)
+                    if (opponentAction == PlayerAction.Reload || opponentAction == PlayerAction.None || opponentAction == PlayerAction.Shoot)
                     {
                         opponent.TakeDamage(1);
-                        Debug.Log($"{actor.name} shot {opponent.name} while reloading!");
+                        Debug.Log($"{actor.name} shot {opponent.name} while vulnerable!");
                     }
                     else if (opponentAction == PlayerAction.Block)
                     {
@@ -86,6 +88,10 @@ public class GameManager : MonoBehaviour
 
             case PlayerAction.Block:
                 Debug.Log($"{actor.name} blocked!");
+                break;
+
+            case PlayerAction.None:
+                Debug.Log($"{actor.name} did nothing!");
                 break;
         }
     }

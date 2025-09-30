@@ -68,29 +68,69 @@ public class PlayerController : MonoBehaviour
         }
 
         // ACTION beat (3)
-        if (currentBeat == 3 && charges >= 2)
+        if (currentBeat == 3)
         {
-            if (Input.GetKeyDown(chargeKey))
+            if (charges >= 2)
             {
-                inputAttemptedThisBeat = true;
-                SetChargesToNone();
-                Debug.Log($"{name} tried overcharging! Charges: 0/0");
+                if (Input.GetKeyDown(chargeKey))
+                {
+                    BeatManager.HitResult result = BeatManager.Instance.CheckHit();
+                    inputAttemptedThisBeat = true;
+                    if (result == BeatManager.HitResult.Perfect || result == BeatManager.HitResult.Good)
+                    {
+                        SetChargesToNone();
+                        Debug.Log($"{name} tried overcharging! Charges: 0/0");
+                        AttemptAction(GameManager.PlayerAction.None);
+                    }
+                    else
+                    {
+                        RegisterMiss(currentBeat);
+                    }
+                }
+                else if (Input.GetKeyDown(reloadKey))
+                {
+                    BeatManager.HitResult result = BeatManager.Instance.CheckHit();
+                    inputAttemptedThisBeat = true;
+                    if (result == BeatManager.HitResult.Perfect || result == BeatManager.HitResult.Good)
+                    {
+                        AttemptAction(GameManager.PlayerAction.Reload);
+                    }
+                    else
+                    {
+                        RegisterMiss(currentBeat);
+                    }
+                }
+                else if (Input.GetKeyDown(shootKey))
+                {
+                    BeatManager.HitResult result = BeatManager.Instance.CheckHit();
+                    inputAttemptedThisBeat = true;
+                    if (result == BeatManager.HitResult.Perfect || result == BeatManager.HitResult.Good)
+                    {
+                        AttemptAction(GameManager.PlayerAction.Shoot);
+                    }
+                    else
+                    {
+                        RegisterMiss(currentBeat);
+                    }
+                }
+                else if (Input.GetKeyDown(blockKey))
+                {
+                    BeatManager.HitResult result = BeatManager.Instance.CheckHit();
+                    inputAttemptedThisBeat = true;
+                    if (result == BeatManager.HitResult.Perfect || result == BeatManager.HitResult.Good)
+                    {
+                        AttemptAction(GameManager.PlayerAction.Block);
+                    }
+                    else
+                    {
+                        RegisterMiss(currentBeat);
+                    }
+                }
+            }
+
+            if (!inputAttemptedThisBeat && lastProcessedBeat != currentBeat)
+            {
                 AttemptAction(GameManager.PlayerAction.None);
-            }
-            else if (Input.GetKeyDown(reloadKey))
-            {
-                inputAttemptedThisBeat = true;
-                AttemptAction(GameManager.PlayerAction.Reload);
-            }
-            else if (Input.GetKeyDown(shootKey))
-            {
-                inputAttemptedThisBeat = true;
-                AttemptAction(GameManager.PlayerAction.Shoot);
-            }
-            else if (Input.GetKeyDown(blockKey))
-            {
-                inputAttemptedThisBeat = true;
-                AttemptAction(GameManager.PlayerAction.Block);
             }
         }
     }
@@ -100,12 +140,13 @@ public class PlayerController : MonoBehaviour
         // will clean this later
         if (beatNum == 1 || beatNum == 2) // only charge beats cause life loss
         {
-            Debug.Log($"{name} missed charge on beat {beatNum}! Lives: {lives}");
+            //Debug.Log($"{name} missed charge on beat {beatNum}! Lives: {lives}");
+            return;
         }
         else if (beatNum == 3)
         {
             TakeDamage(1);
-            Debug.Log($"{name} missed their action opportunity on beat 3!");
+            //Debug.Log($"{name} missed their action opportunity on beat 3!");
             SetChargesToNone();
             //AttemptAction(GameManager.PlayerAction.None); DO NOT UNCOMMENT THIS IT MAKES THE GAME CRASH I DONT KNOW WHY
         }
@@ -129,7 +170,7 @@ public class PlayerController : MonoBehaviour
     {
         lives = Mathf.Max(0, lives - amount);
         livesUI.RemovePrefab();
-        Debug.Log($"{name} took {amount} damage! Lives: {lives}");
+        //Debug.Log($"{name} took {amount} damage! Lives: {lives}");
     }
 
     public void GainCharge()
