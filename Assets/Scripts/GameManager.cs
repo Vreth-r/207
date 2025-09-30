@@ -1,4 +1,7 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,18 +22,56 @@ public class GameManager : MonoBehaviour
     public Animator blueBullet;
     public Animator redShield;
     public Animator blueShield;
+    public Animator blue;
+    public Animator red;
 
+    [Header("UI")]
+    public TextMeshProUGUI gameEndText;
+    public Button restartButton;
+
+    private void OnEnable()
+    {
+        BeatManager.Instance.OnBeatEnd += HandleBeatEnd;
+    }
+
+    private void OnDisable()
+    {
+        BeatManager.Instance.OnBeatEnd -= HandleBeatEnd;
+    }
+
+    private void HandleBeatEnd(int beatNum)
+    {
+        if (beatNum == 3)
+        {
+            ResolveActions();
+            p1Queued = PlayerAction.None;
+            p2Queued = PlayerAction.None;
+        }
+    }
+
+    public void RestartButtonFunc()
+    {
+        SceneManager.LoadScene("Menu");
+    }
     void Update()
     {
-        if (!player1.IsAlive())
+        if (!player1.IsAlive() || !player2.IsAlive())
         {
-            Debug.Log("Player 2 wins!");
-            enabled = false;
-        }
-        else if (!player2.IsAlive())
-        {
-            Debug.Log("Player 1 wins!");
-            enabled = false;
+            BeatManager.Instance.running = false;
+            if (!player1.IsAlive() && !player2.IsAlive())
+            {
+                gameEndText.text = "Tie!";
+            }
+            else if (player1.IsAlive())
+            {
+                gameEndText.text = "Player 1 Wins!";
+            }
+            else
+            {
+                gameEndText.text = "Player 2 Wins!";
+            }
+            gameEndText.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true);
         }
     }
 
@@ -39,21 +80,10 @@ public class GameManager : MonoBehaviour
         if (actor == player1)
         {
             p1Queued = action;
-            p1Actor = actor;
-            p2Actor = player2;
         }
         else if (actor == player2)
         {
             p2Queued = action;
-            p2Actor = actor;
-            p1Actor = player1;
-        }
-
-        if (p1Queued != PlayerAction.None && p2Queued != PlayerAction.None)
-        {
-            ResolveActions();
-            p1Queued = PlayerAction.None;
-            p2Queued = PlayerAction.None;
         }
     }
 
@@ -61,8 +91,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"Resolving: P1 {p1Queued} vs P2 {p2Queued}");
 
-        ResolveSingleAction(p1Actor, p1Queued, p2Actor, p2Queued);
-        ResolveSingleAction(p2Actor, p2Queued, p1Actor, p1Queued);
+        ResolveSingleAction(player1, p1Queued, player2, p2Queued);
+        ResolveSingleAction(player2, p2Queued, player1, p1Queued);
     }
 
     void ResolveSingleAction(PlayerController actor, PlayerAction action, PlayerController opponent, PlayerAction opponentAction)
@@ -97,6 +127,14 @@ public class GameManager : MonoBehaviour
                     if (opponentAction == PlayerAction.Reload || opponentAction == PlayerAction.None || opponentAction == PlayerAction.Shoot)
                     {
                         opponent.TakeDamage(1);
+                        if (opponent == player1)
+                        {
+                            blue.Play("Hurt");
+                        }
+                        else
+                        {
+                            red.Play("Hurt");
+                        }
                         //Debug.Log($"{actor.name} shot {opponent.name} while vulnerable!");
                     }
                     else if (opponentAction == PlayerAction.Block)

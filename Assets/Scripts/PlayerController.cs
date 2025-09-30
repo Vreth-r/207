@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // CHARGE beats (1 & 2)
-        if ((currentBeat == 1 || currentBeat == 2) && Input.GetKeyDown(chargeKey))
+        if ((currentBeat == 1 || currentBeat == 2) && Input.GetKeyDown(chargeKey) && !inputAttemptedThisBeat)
         {
             BeatManager.HitResult result = BeatManager.Instance.CheckHit();
             inputAttemptedThisBeat = true;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         // ACTION beat (3)
         if (currentBeat == 3)
         {
-            if (charges >= 2)
+            if (charges >= 2 && !inputAttemptedThisBeat)
             {
                 if (Input.GetKeyDown(chargeKey))
                 {
@@ -169,6 +169,14 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int amount)
     {
         lives = Mathf.Max(0, lives - amount);
+        if (lives == 3)
+        {
+            BeatManager.Instance.IncreaseBPM(10);
+        }
+        if (lives == 1)
+        {
+            BeatManager.Instance.IncreaseBPM(20);
+        }
         livesUI.RemovePrefab();
         //Debug.Log($"{name} took {amount} damage! Lives: {lives}");
     }

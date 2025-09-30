@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class BeatManager : MonoBehaviour
 {
     public static BeatManager Instance;
+    public bool running = true;
 
     [Header("Beat Settings")]
     public float bpm = 120f;
 
     [Header("Timing Windows (seconds)")]
-    public float perfectWindow = 0.12f;
-    public float goodWindow = 0.3f;
+    public float perfectWindow = 0.0f;
+    public float goodWindow = 0.05f;
 
     [Header("Visuals")]
     public GameObject beatPrefab;
@@ -22,6 +24,8 @@ public class BeatManager : MonoBehaviour
     private BeatMarker activeMarker;
     private int beatCount = 0; // cycle counter
 
+    public event Action<int> OnBeatEnd;
+
     void Awake() => Instance = this;
 
     void Start()
@@ -30,10 +34,22 @@ public class BeatManager : MonoBehaviour
         nextBeatTime = Time.time + beatInterval;
     }
 
+    public void IncreaseBPM(float delta)
+    {
+        bpm += delta;
+        beatInterval = 60f / bpm;
+    }
+
     void Update()
     {
+        if (!running) return;
+
         if (Time.time >= nextBeatTime)
         {
+            if (OnBeatEnd != null)
+            {
+                OnBeatEnd.Invoke(beatCount);
+            }
             SpawnMarker();
             nextBeatTime += beatInterval;
         }
@@ -48,7 +64,7 @@ public class BeatManager : MonoBehaviour
         GameObject markerObj = Instantiate(beatPrefab, spawnPoint.position, Quaternion.identity, spawnPoint.parent);
         if (beatCount == 3) // if its an action beat
         {
-            markerObj.GetComponent<Image>().color = Color.blue;
+            markerObj.GetComponent<Image>().color = Color.red;
         }
         activeMarker = markerObj.GetComponent<BeatMarker>();
         activeMarker.Initialize(hitZone.position, beatInterval);
@@ -61,9 +77,14 @@ public class BeatManager : MonoBehaviour
         if (activeMarker == null) return HitResult.Miss;
 
         float distanceToBeat = Mathf.Abs(Time.time - activeMarker.arrivalTime);
-
-        if (distanceToBeat <= perfectWindow) return HitResult.Perfect;
-        if (distanceToBeat <= goodWindow) return HitResult.Good;
+        if (distanceToBeat <= perfectWindow)
+        {
+            return HitResult.Perfect;
+        }
+        if (distanceToBeat <= goodWindow)
+        {
+            return HitResult.Good;
+        }
         return HitResult.Miss;
     }
 
