@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             p2Actor = actor;
         }
 
-        if (p1Queued != PlayerAction.None && p2Queued != PlayerAction.None)
+        if (p1Queued != PlayerAction.None || p2Queued != PlayerAction.None)
         {
             ResolveActions();
             p1Queued = PlayerAction.None;

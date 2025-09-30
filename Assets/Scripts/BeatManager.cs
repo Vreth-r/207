@@ -10,7 +10,7 @@ public class BeatManager : MonoBehaviour
 
     [Header("Timing Windows (seconds)")]
     public float perfectWindow = 0.12f;
-    public float goodWindow = 0.22f;
+    public float goodWindow = 0.3f;
 
     [Header("Visuals")]
     public GameObject beatPrefab;

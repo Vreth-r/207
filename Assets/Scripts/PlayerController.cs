@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
                 inputAttemptedThisBeat = true;
                 SetChargesToNone();
                 Debug.Log($"{name} tried overcharging! Charges: 0/0");
+                AttemptAction(GameManager.PlayerAction.None);
             }
             else if (Input.GetKeyDown(reloadKey))
             {
@@ -96,15 +97,17 @@ public class PlayerController : MonoBehaviour
 
     private void RegisterMiss(int beatNum)
     {
+        // will clean this later
         if (beatNum == 1 || beatNum == 2) // only charge beats cause life loss
         {
-            TakeDamage(1);
             Debug.Log($"{name} missed charge on beat {beatNum}! Lives: {lives}");
         }
-        else if (beatNum == 3 && charges >= 2)
+        else if (beatNum == 3)
         {
+            TakeDamage(1);
             Debug.Log($"{name} missed their action opportunity on beat 3!");
             SetChargesToNone();
+            //AttemptAction(GameManager.PlayerAction.None); DO NOT UNCOMMENT THIS IT MAKES THE GAME CRASH I DONT KNOW WHY
         }
     }
 
